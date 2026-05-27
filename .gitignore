@@ -1,0 +1,15 @@
+#ignorar carpetas de documentación e ideas
+Ideas/
+
+# Ignorar carpetas de compilación de Maven de ambos proyectos
+**/target/
+
+# Ignorar configuración personal de IntelliJ
+.idea/
+*.iml
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
+
+.env

@@ -1,0 +1,77 @@
+@import "estilos.css";
+
+.fondo-header {
+    background-color: var(--DARK-BACKCOLOR) !important;
+    z-index: 2000 !important;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+}
+.logo {
+    height: 50px;
+    width: 95px;
+}
+
+/* GRUPO DE BÚSQUEDA (Dropdown + Input) */
+.search-group {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    height: 42px;
+    max-width: 700px;
+    overflow: visible !important;
+}
+.search-group .dropdown .btn {
+    border: none !important;
+    border-right: 1px solid #ddd !important;
+    border-radius: 12px 0 0 12px !important;
+    background-color: #f8f9fa !important;
+    color: var(--DARK-BACKCOLOR) !important;
+    height: 100%;
+    padding: 0 15px;
+    font-size: 0.9rem;
+}
+.dropdown-menu {
+    z-index: 9999 !important;
+}
+.search-group .search-input {
+    border: none !important;
+    box-shadow: none !important;
+    height: 100%;
+    padding-left: 15px;
+    flex-grow: 1;
+}
+.search-icon-btn {
+    background: white;
+    border: none;
+    padding-right: 15px;
+    height: 100%;
+    cursor: pointer;
+}
+.br-search{
+    border-radius: 0 12px 12px 0 !important;
+}
+.bi-search {
+    color: var(--SECONDARY-ORANGE);
+    font-size: 1.3rem;
+}
+
+.notification-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+.bell-icon {
+    font-size: 2rem;
+    color: var(--PRIMARY-BLUE);
+}
+.notification-dot {
+    position: absolute;
+    top: 5px;
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    background-color: var(--SECONDARY-ORANGE);
+    border-radius: 50%;
+    border: 2px solid var(--DARK-BACKCOLOR);
+}

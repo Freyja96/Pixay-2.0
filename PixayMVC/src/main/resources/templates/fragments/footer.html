@@ -1,0 +1,27 @@
+<footer class="fondo-footer container-fluid fixed-bottom py-2 ">
+    <div class="row align-items-center text-center text-white">
+
+        <div class="col-6 col-md-4 small text-secondary">
+            © 2026 Pixay Project
+        </div>
+        <div class="col-12 col-md-4 mb-2 mb-md-0 justify-content-center align-items-center">
+            <div class="d-flex justify-content-center align-items-center">
+
+                <a th:href="${session.token != null} ? @{/subir-imagen} : @{/login}" class="border-0 p-0 d-flex footer-icon" title="Añadir nuevo" aria-label="Añadir nuevo contenido">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24">
+                        <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"></path>
+                    </svg>
+                </a>
+                <span class="ms-2 d-md-none text-secondary">Añadir contenido</span>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-4">
+            <div class="d-flex justify-content-center gap-3">
+                <a href="#" class="text-decoration-none text-white-50 small">Ayuda</a>
+                <a href="#" class="text-decoration-none text-white-50 small">Privacidad</a>
+            </div>
+        </div>
+
+    </div>
+</footer>

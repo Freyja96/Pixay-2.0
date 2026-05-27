@@ -1,0 +1,69 @@
+body {
+    background-color: var(--DARK-BACKCOLOR);
+}
+
+.login-title{
+    color: var(--PRIMARY-BLUE);
+    font-weight: bold;
+}
+.login-logo {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+.card {
+    background-color: var(--DARK-BACKCOLOR);
+    width: 500px;
+}
+.card-body {
+    background-color: var(--DARK-BACKCOLOR);
+}
+.card-title {
+    color: var(--PRIMARY-BLUE);
+}
+.form-label {
+    color: var(--LIGHT-CASE);
+}
+.form-control {
+    background-color: #002844;
+    color: var(--LIGHT-CASE);
+}
+.form-control::placeholder {
+    color: #666;
+}
+.btn-primary {
+    background-color: var(--PRIMARY-BLUE);
+    border-color: var(--PRIMARY-BLUE);
+}
+.text-muted {
+    color: var(--LIGHT-CASE) !important;
+}
+.login-button {
+    width: 220px;
+    height: 60px
+}
+.orange-text {
+    color: var(--SECONDARY-ORANGE);
+}
+
+.eye-toggle {
+    position: absolute;
+    right: 15px;
+    top: 38px;
+    cursor: pointer;
+    color: var(--LIGHT-CASE);
+    z-index: 10;
+    font-size: 1.2rem;
+    transition: color 0.2s;
+}
+
+.eye-toggle:hover {
+    color: var(--SECONDARY-ORANGE);
+}
+
+
+.form-control {
+    padding-right: 45px;
+}

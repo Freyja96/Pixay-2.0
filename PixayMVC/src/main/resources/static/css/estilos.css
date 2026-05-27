@@ -1,0 +1,39 @@
+@import "cabecera.css";
+@import "footer.css";
+
+:root {
+    /* Colores corporativos de Pixay */
+    --WHITE-BACKCOLOR: #F7F7F7;
+    --DARK-BACKCOLOR: #001D33;
+    --PRIMARY-BLUE: #019CF8;
+    --SECONDARY-ORANGE: #ff8c00;
+    --LIGHT-BLUE: #73B9ED;
+    --LIGHT-ORANGE: #F6A964;
+    --DARK-CASE: #33484B;
+    --LIGHT-CASE: #D1DEE8;
+    --LIGHT-GRAY: #33484B40;
+
+    /* Espaciados y medidas constantes */
+    --BORDER-RADIUS-LG: 15px;
+}
+* {
+    font-family: Poppins, sans-serif;
+}
+
+.text-orange { color: var(--SECONDARY-ORANGE); }
+.text-navy { color: var(--DARK-BACKCOLOR); }
+
+.btn-primary {
+    background-color: var(--PRIMARY-BLUE) !important;
+}
+
+
+/* Botón Publicar */
+.btn-publish {
+    background-color: var(--PRIMARY-BLUE);
+    color: white;
+    border-radius: var(--BORDER-RADIUS-LG);
+    padding: 10px 40px;
+    border: none;
+    font-weight: 500;
+}

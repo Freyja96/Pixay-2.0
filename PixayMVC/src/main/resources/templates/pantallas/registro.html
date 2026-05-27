@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pixay - Registro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+    <link rel="stylesheet" th:href="@{/css/registro.css}">
+
+</head>
+<body>
+
+<img th:src="@{/imagenes/logo.png}" class="register-logo" alt="Pixay"/>
+<div class="container d-flex align-items-center justify-content-center vh-50">
+    <div class="card" style="width: 500px;">
+        <div class="card-body">
+            <h3 class="card-title text-center mb-4 login-title">Registro</h3>
+
+            <div th:if="${listaErrores}" class="alert alert-danger border-0 shadow-sm mb-4">
+                <ul class="mb-0">
+                    <li th:each="err : ${listaErrores}" th:text="${err}"></li>
+                </ul>
+            </div>
+            <form th:action="@{/registro}" th:object="${registro}" method="post">
+                <div class="mb-3">
+                    <!-- Usuario -->
+                    <label for="username" class="form-label">Usuario</label>
+                    <input type="text" id="username" th:field="*{username}" class="form-control" placeholder="Usuario" autofocus>
+                </div>
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="text" id="email" th:field="*{email}" class="form-control" placeholder="Email">
+                </div>
+                <!-- Contraseña -->
+                <div class="mb-3 position-relative">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" id="password"  th:field="*{password}" class="form-control" placeholder="Contraseña">
+                    <i class="bi bi-eye-slash eye-toggle" id="togglePassword"></i>
+                </div>
+                <!-- Repetir contraseña -->
+                <div class="mb-3 position-relative">
+                    <label for="repassword" class="form-label">Repetir contraseña</label>
+                    <input type="password" id="repassword" name="repassword" class="form-control" placeholder="Repetir contraseña">
+                    <i class="bi bi-eye-slash eye-toggle" id="toggleRepassword"></i>
+                </div>
+                <!-- Registro -->
+                <div class="d-flex justify-content-center mt-3">
+                    <button type="submit" class="btn btn-primary login-button">REGISTRATE</button>
+                </div>
+
+            </form>
+
+            <p class="text-center mt-3 mb-0 orange-text">
+                ¿Ya tienes cuenta? <a class="orange-text" th:href="@{/login}">Inicia sesión</a>
+            </p>
+
+            <p class="text-center mt-3 mb-0 text-muted">
+
+
+            </p>
+        </div>
+    </div>
+</div>
+<script>
+    function setupPasswordToggle(toggleId, inputId) {
+        const toggle = document.querySelector(toggleId);
+        const input = document.querySelector(inputId);
+
+        toggle.addEventListener('click', function () {
+
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+
+            this.classList.toggle('bi-eye');
+            this.classList.toggle('bi-eye-slash');
+        });
+    }
+
+    setupPasswordToggle('#togglePassword', '#password');
+    setupPasswordToggle('#toggleRepassword', '#repassword');
+</script>
+</body>
+</html>

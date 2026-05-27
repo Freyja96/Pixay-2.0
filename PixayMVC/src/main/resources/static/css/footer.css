@@ -1,0 +1,26 @@
+@import "estilos.css";
+
+.fondo-footer {
+    background-color: var(--DARK-BACKCOLOR) !important;
+    z-index: 2000 !important;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding-bottom: 70px;
+}
+
+.footer-icon {
+    background-color: var(--DARK-BACKCOLOR) !important;
+}
+.footer-icon svg {
+    fill: var(--SECONDARY-ORANGE) !important;
+}
+.footer-icon:hover svg{
+    fill: var(--LIGHT-BLUE) !important;
+}
+.footer-custom {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixay - Subir imagen</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+    <link rel="stylesheet" th:href="@{/css/subir-imagen.css}">
+</head>
+<body>
+    <div th:insert="~{fragments/cabecera}"></div>
+    <div class="container mt-5 py-5">
+        <h6 class="text-orange fw-bold mb-4">Subir imagen</h6>
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <form id="uploadForm" th:action="@{/subir-imagen}" method="post" enctype="multipart/form-data" class="upload-form">
+                    <div class="mb-4">
+                        <label class="form-label fw-medium text-navy">Introduce el título de la imagen:</label>
+                        <input type="text" name="title" class="form-control custom-input" placeholder="Escribe aquí...">
+                    </div>
+                    <div class="mb-4">
+                        <select name="category_id" id="category_id" class="form-select custom-input col-6">
+                            <option selected disabled value="">Selecciona una categoría</option>
+                            <option th:each="cat : ${categoriesObjects}"
+                                    th:value="${cat.id}"
+                                    th:text="${cat.name}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <select name="subcategory_id" id="subcategory_id" class="form-select custom-input col-6">
+                            <option selected disabled value="">Selecciona una subcategoría</option>
+                            <option th:each="sub : ${subcategoriesObjects}"
+                                    th:value="${sub.id}"
+                                    th:text="${sub.name}"
+                                    th:attr="data-category-id=${sub.categoryId}"
+                                    style="display: none;">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="upload-area mb-4" onclick="document.getElementById('content').click()">
+                        <div id="default-content" class="text-center">
+                            <p class="mb-2 text-navy">Añadir imagen</p>
+                            <div class="image-placeholder">
+                                <svg width="216" height="157" viewBox="0 0 216 157" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <mask id="mask0_1_13" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="216" height="157">
+                                        <rect x="3.5" y="3.5" width="209" height="150" rx="16.5" fill="#D9D9D9" stroke="#6A6A6A" stroke-width="7"/>
+                                    </mask>
+                                    <g mask="url(#mask0_1_13)">
+                                        <rect x="3.5" y="3.5" width="209" height="150" rx="16.5" stroke="#6A6A6A" stroke-width="7"/>
+                                        <rect x="38.4087" y="108.881" width="58" height="53" transform="rotate(46.3043 38.4087 108.881)" fill="#6A6A6A"/>
+                                        <rect x="135.82" y="50" width="131.175" height="120.55" transform="rotate(41.0127 135.82 50)" fill="#6A6A6A"/>
+                                        <circle cx="62.5" cy="102.5" r="9.5" fill="#6A6A6A"/>
+                                        <path d="M53.8202 91L59.9952 94.0235L58.8154 99.7817L53.8202 98.7583L53.8202 91Z" fill="#6A6A6A"/>
+                                        <ellipse cx="62" cy="126.5" rx="8" ry="17.5" fill="#6A6A6A"/>
+                                        <path d="M71.175 91L65.0001 94.0235L66.1799 99.7817L71.1751 98.7583L71.175 91Z" fill="#6A6A6A"/>
+                                        <circle cx="47.5" cy="43.5" r="22.5" fill="#6A6A6A"/>
+                                        <path d="M69.5395 123.946C69.1753 124.062 68.8546 124.3 68.6526 124.63C68.4506 124.96 68.3833 125.352 68.4665 125.723C68.5496 126.095 68.7775 126.42 69.1009 126.632C69.4243 126.845 69.8161 126.924 70.195 126.873C70.195 126.873 70.195 126.873 70.195 126.873C71.1495 126.646 71.5959 126.366 72.1778 125.986C77.2315 121.803 76.8194 115.673 76.5152 110.741C76.3244 108.66 76.2781 106.537 76.6974 105.079C76.8694 104.48 77.0574 104.18 77.0814 104.056C77.0822 103.915 77.4114 103.644 78.0939 103.611C78.4286 103.581 78.8901 103.636 79.1847 103.642C79.5322 103.735 79.9073 103.753 80.2558 103.646C80.6042 103.539 80.895 103.319 81.0727 103.019C81.2505 102.72 81.305 102.36 81.2326 102.002C81.1603 101.645 80.9648 101.324 80.7173 101.063C80.7173 101.063 80.7173 101.063 80.7173 101.063C80.1459 100.585 79.6787 100.272 79.0425 99.9847C77.9241 99.4702 76.1946 99.1971 74.5822 100.091C72.9865 100.983 72.2503 102.488 71.9015 103.665C71.1302 106.568 71.4166 108.92 71.7232 111.317C72.3551 115.733 72.6107 120.804 70.1705 123.424C70.0456 123.548 69.9196 123.657 69.7936 123.752C69.7278 123.8 69.6657 123.843 69.6083 123.879C69.5694 123.911 69.4355 123.962 69.5395 123.946Z" fill="#6A6A6A"/>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                        <img id="image-preview" src="#" alt="Previsualización" class="d-none w-100 h-100" style="object-fit: cover; border-radius: 20px;">
+                        <input type="file" name="content" id="content" accept="image/*" class="d-none" onchange="previewImage(this)">
+                    </div>
+
+                    <div id="file-name" class="text-center mb-3 small text-muted"></div>
+
+                    <!-- para mostrar que se ha subido la imagen correctamente, quiero que se muestre solo para confirmar-->
+                    <div th:if="${message}" class="alert alert-success border-0 shadow-sm mb-4" th:text="${message}"></div>
+
+                    <div class="text-center">
+                        <button type="submit" id="btnSubmit" class="btn btn-publish px-5 btn-primary">Publicar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    document.getElementById('category_id').addEventListener('change', function() {
+        const selectedCategoryId = this.value;
+        const subSelect = document.getElementById('subcategory_id');
+        const options = subSelect.querySelectorAll('option');
+
+        subSelect.value = ""; // Resetear selección
+        options.forEach(opt => {
+            if (opt.getAttribute('data-category-id') === selectedCategoryId || opt.value === "") {
+                opt.style.display = 'block';
+            } else {
+                opt.style.display = 'none';
+            }
+        });
+    });
+    document.getElementById('uploadForm').addEventListener('submit', function() {
+        const btn = document.getElementById('btnSubmit');
+        btn.disabled = true; // Deshabilita el botón
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Publicando...';
+    });
+    // function previewName(input) {
+    //     const display = document.getElementById('file-name');
+    //     if (input.files && input.files[0]) {
+    //         display.innerHTML = "Archivo seleccionado: <strong>" + input.files[0].name + "</strong>";
+    //     }
+    // }
+    function previewImage(input) {
+    const preview = document.getElementById('image-preview');
+    const defaultContent = document.getElementById('default-content');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('d-none');
+            defaultContent.classList.add('d-none');
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+</html>

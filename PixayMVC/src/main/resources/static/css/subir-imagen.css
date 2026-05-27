@@ -1,0 +1,29 @@
+@import "estilos.css";
+
+.custom-input {
+    background-color: var(--WHITE-BACKCOLOR);
+    border: none;
+    border-radius: var(--BORDER-RADIUS-LG);
+    padding: 12px;
+}
+
+/* Área gris de carga central */
+.upload-area {
+    background-color: var(--WHITE-BACKCOLOR);
+    border-radius: var(--BORDER-RADIUS-LG);
+    cursor: pointer;
+    transition: transform 0.2s;
+    overflow: hidden;
+}
+#default-content {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-publish:hover {
+    background-color: #007acc;
+    color: white;
+}

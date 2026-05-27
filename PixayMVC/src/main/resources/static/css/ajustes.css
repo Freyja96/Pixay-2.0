@@ -1,0 +1,32 @@
+.fondo{
+    background-color: #f7f7f7;
+}
+
+.cajas {
+    background-color: #B7C9E2;
+}
+
+.card-header {
+    background-color: #C0C8CF !important;
+}
+.card-body {
+    background-color: #E0E4E7;
+}
+
+.btn-naranja{
+    background-color: #f48201;
+}
+.espaciadoFlecha {
+    display: inline-flex;
+    margin-left: 100px;
+    justify-content: center;
+    align-items: center;
+}
+.titulos {
+    font-family:"Calibri";
+    font-size:42px;
+    margin-left: 0px;
+}
+.collapse {
+    width: 100%;
+}

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${imagen.title} + ' - Pixay'"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+    <link rel="stylesheet" th:href="@{/css/detalle.css}">
+</head>
+<body>
+<div th:insert="~{/fragments/cabecera}"></div>
+
+<div class="container mt-5 mb-5 pt-5">
+    <div class="post-container">
+
+        <!-- SECCIÓN 1: AUTOR (Avatar y Nombre) (Si no hay foto de perfil se pone logo por defecto -->
+        <div class="d-flex align-items-center mb-2" th:if="${autor != null}">
+            <a th:href="@{/usuario/{id}(id=${autor.id})}" class="links"><img th:src="${autor.profilePicture != null ? autor.profilePicture : '/imagenes/sin-foto-perfil.png'}"
+                 class="author-img" alt="Avatar">
+                <span class="author-name fw-bold" th:text="${autor.username}">Usuario</span>
+            </a>
+        </div>
+
+        <p class="image-title fw-bold" th:text="${imagen.title}"></p>
+
+        <!-- SECCIÓN 2: IMAGEN PRINCIPAL -->
+        <div class="text-center">
+            <img th:src="'data:image/jpeg;base64,' + ${imagen.getContentBase64()}"
+                 class="img-main" th:alt="${imagen.title}">
+        </div>
+        <!-- CONTADORES DE REACCIONES-->
+        <div class="reaction-stats d-flex flex-wrap gap-2 mt-2">
+
+            <!-- Cowboy (1) -->
+            <div class="reaction-stat-item" id="stat-1" th:style="${counts == null || counts.get('1') == null || counts.get('1') == 0 ? 'display:none' : 'display:flex'}">
+                <img th:src="@{/imagenes/emojis/cowboy-gato.png}" width="22">
+                <span class="ms-1 fw-bold" th:text="${counts != null && counts.get('1') != null ? counts.get('1') : 0}">0</span>
+            </div>
+
+            <!-- Gema (2) -->
+            <div class="reaction-stat-item" id="stat-2" th:style="${counts == null || counts.get('2') == null || counts.get('2') == 0 ? 'display:none' : 'display:flex'}">
+                <img th:src="@{/imagenes/emojis/gema-gato.png}" width="22">
+                <span class="ms-1 fw-bold" th:text="${counts != null && counts.get('2') != null ? counts.get('2') : 0}">0</span>
+            </div>
+
+            <!-- Rosa (3) -->
+            <div class="reaction-stat-item" id="stat-3" th:style="${counts == null || counts.get('3') == null || counts.get('3') == 0 ? 'display:none' : 'display:flex'}">
+                <img th:src="@{/imagenes/emojis/rosa-gato.png}" width="22">
+                <span class="ms-1 fw-bold" th:text="${counts != null && counts.get('3') != null ? counts.get('3') : 0}">0</span>
+            </div>
+
+            <!-- Enfado (4) -->
+            <div class="reaction-stat-item" id="stat-4" th:style="${counts == null || counts.get('4') == null || counts.get('4') == 0 ? 'display:none' : 'display:flex'}">
+                <img th:src="@{/imagenes/emojis/enfado-gato.png}" width="22">
+                <span class="ms-1 fw-bold" th:text="${counts != null && counts.get('4') != null ? counts.get('4') : 0}">0</span>
+            </div>
+
+            <!-- Risa (5) -->
+            <div class="reaction-stat-item" id="stat-5" th:style="${counts == null || counts.get('5') == null || counts.get('5') == 0 ? 'display:none' : 'display:flex'}">
+                <img th:src="@{/imagenes/emojis/risa-gato.png}" width="22">
+                <span class="ms-1 fw-bold" th:text="${counts != null && counts.get('5') != null ? counts.get('5') : 0}">0</span>
+            </div>
+
+            <!-- Triste (6) -->
+            <div class="reaction-stat-item" id="stat-6" th:style="${counts == null || counts.get('6') == null || counts.get('6') == 0 ? 'display:none' : 'display:flex'}">
+                <img th:src="@{/imagenes/emojis/triste-gato.png}" width="22">
+                <span class="ms-1 fw-bold" th:text="${counts != null && counts.get('6') != null ? counts.get('6') : 0}">0</span>
+            </div>
+
+            <!-- Like (7) -->
+            <div class="reaction-stat-item" id="stat-7" th:style="${counts == null || counts.get('7') == null || counts.get('7') == 0 ? 'display:none' : 'display:flex'}">
+                <img th:src="@{/imagenes/emojis/like-gato.png}" width="22">
+                <span class="ms-1 fw-bold" th:text="${counts != null && counts.get('7') != null ? counts.get('7') : 0}">0</span>
+            </div>
+
+            <!-- Dislike (8) -->
+            <div class="reaction-stat-item" id="stat-8" th:style="${counts == null || counts.get('8') == null || counts.get('8') == 0 ? 'display:none' : 'display:flex'}">
+                <img th:src="@{/imagenes/emojis/dislike-gato.png}" width="22">
+                <span class="ms-1 fw-bold" th:text="${counts != null && counts.get('8') != null ? counts.get('8') : 0}">0</span>
+            </div>
+        </div>
+        <!-- SECCIÓN 3: BARRA DE ICONOS (Debajo de la imagen) -->
+        <div class="icon-bar">
+            <i id="main-react-icon"
+               th:class="${session.username == null} ? 'bi bi-emoji-smile icon-disabled' : 'bi bi-emoji-smile cursor-pointer'"
+               th:title="${session.username == null} ? 'Inicia sesión para reaccionar' : 'Reaccionar'"></i>
+
+            <i id="main-save-icon"
+               th:class="${session.username == null} ? 'bi bi-bookmark icon-disabled' : (${isSaved} ? 'bi bi-bookmark-fill cursor-pointer' : 'bi bi-bookmark cursor-pointer')"
+               th:style="${session.username != null && isSaved} ? 'color: var(--PRIMARY-BLUE)' : ''"
+               th:title="${session.username == null} ? 'Inicia sesión para guardar' : 'Guardar'"></i>
+
+            <a th:href="'data:image/jpeg;base64,' + ${imagen.getContentBase64()}"
+               th:download="${imagen.title} + '.jpg'" style="color: inherit;">
+                <i class="bi bi-arrow-down" title="Descargar"></i>
+            </a>
+        </div>
+
+        <!-- SECCIÓN 4: CHAT -->
+        <div id="chat-messages">
+            <!-- Los mensajes se cargan por JS -->
+        </div>
+
+        <!-- SECCIÓN 5: INPUT -->
+        <div class="chat-input-container position-relative">
+            <!-- Lista de emojis -->
+            <div id="emoji-picker" class="pixay-emoji-picker shadow">
+                <div class="emoji-grid">
+                    <img th:src="@{/imagenes/emojis/cowboy-gato.png}" data-code=":cowboy:" class="emoji-item" title="Cowboy">
+                    <img th:src="@{/imagenes/emojis/gema-gato.png}" data-code=":gema:" class="emoji-item" title="Gema">
+                    <img th:src="@{/imagenes/emojis/rosa-gato.png}" data-code=":rosa:" class="emoji-item" title="Rosa">
+                    <img th:src="@{/imagenes/emojis/enfado-gato.png}" data-code=":enfado:" class="emoji-item" title="Enfado">
+                    <img th:src="@{/imagenes/emojis/risa-gato.png}" data-code=":risa:" class="emoji-item" title="Risa">
+                    <img th:src="@{/imagenes/emojis/triste-gato.png}" data-code=":triste:" class="emoji-item" title="Triste">
+                    <img th:src="@{/imagenes/emojis/like-gato.png}" data-code=":like:" class="emoji-item" title="Like">
+                    <img th:src="@{/imagenes/emojis/dislike-gato.png}" data-code=":dislike:" class="emoji-item" title="Dislike">
+                </div>
+            </div>
+            <!-- Botón de emoji -->
+            <i class="bi bi-emoji-smile-fill fs-3 me-2"
+               id="btn-emoji"
+               th:style="${session.username == null} ? 'color: var(--LIGHT-GRAY); cursor: not-allowed;' : 'color: #000; cursor: pointer;'"></i>
+
+            <div class="input-wrapper">
+                <!-- Input: Cambiamos el placeholder y lo deshabilitamos -->
+                <input type="text" id="chat-input"
+                       th:placeholder="${session.username == null} ? 'Inicia sesión para comentar...' : 'Escribe un mensaje...'"
+                       th:disabled="${session.username == null}"
+                       class="form-control chat-input">
+            </div>
+            <button id="btn-send"
+                    th:class="${session.username == null} ? 'btn-send-disabled' : 'btn-send-blue'"
+                    th:disabled="${session.username == null}"
+                    th:title="${session.username == null} ? 'Inicia sesión para comentar' : 'Enviar'">
+                <i class="bi bi-arrow-right-circle-fill"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- JS propio -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    // --- 1. Configuración/Identidad ---
+    const currentUserId = /*[[${session.userId != null ? session.userId : 0}]]*/ 0;
+    let userCurrentReaction = /*[[${currentReaction != null ? currentReaction : 0}]]*/ 0;
+    const socket = io('http://localhost:3000');
+    const imageId = /*[[${imagen.id}]]*/ 0;
+    const username = /*[[${session.username}]]*/ 'Anónimo';
+    const userAvatar = /*[[${session.avatar}]]*/ '/imagenes/sin-foto-perfil.png';
+
+
+    const chatContainer = document.getElementById('chat-messages');
+    const chatInput = document.getElementById('chat-input');
+    const btnSend = document.getElementById('btn-send');
+    const btnEmojiInput = document.getElementById('btn-emoji'); // Carita negra del input
+    const emojiPicker = document.getElementById('emoji-picker'); // Menú de emojis del input
+    const saveIcon = document.querySelector('.icon-bar .bi-bookmark, .icon-bar .bi-bookmark-fill');
+    const mainReactBtn = document.querySelector('.icon-bar .bi-emoji-smile'); // Carita de la barra principal
+
+    // --- 2. Mapeos de emojis ---
+
+    // Mapeo para el traductor de texto a emoji
+    const emojiMap = {
+        ':cowboy:': /*[[@{/imagenes/emojis/cowboy-gato.png}]]*/ '',
+        ':gema:':   /*[[@{/imagenes/emojis/gema-gato.png}]]*/   '',
+        ':rosa:':   /*[[@{/imagenes/emojis/rosa-gato.png}]]*/   '',
+        ':enfado:': /*[[@{/imagenes/emojis/enfado-gato.png}]]*/ '',
+        ':risa:':   /*[[@{/imagenes/emojis/risa-gato.png}]]*/   '',
+        ':triste:': /*[[@{/imagenes/emojis/triste-gato.png}]]*/ '',
+        ':like:':   /*[[@{/imagenes/emojis/like-gato.png}]]*/   '',
+        ':dislike:':/*[[@{/imagenes/emojis/dislike-gato.png}]]*/ '',
+    };
+
+    // Código de texto -> ID
+    const emojiToId = {
+        ':cowboy:': 1, ':gema:': 2, ':rosa:': 3, ':enfado:': 4,
+        ':risa:': 5, ':triste:': 6, ':like:': 7, ':dislike:': 8
+    };
+
+    // ID -> Ruta de Imagen (Carga inicial)
+    const idToPath = {
+        1: /*[[@{/imagenes/emojis/cowboy-gato.png}]]*/ '',
+        2: /*[[@{/imagenes/emojis/gema-gato.png}]]*/ '',
+        3: /*[[@{/imagenes/emojis/rosa-gato.png}]]*/ '',
+        4: /*[[@{/imagenes/emojis/enfado-gato.png}]]*/ '',
+        5: /*[[@{/imagenes/emojis/risa-gato.png}]]*/ '',
+        6: /*[[@{/imagenes/emojis/triste-gato.png}]]*/ '',
+        7: /*[[@{/imagenes/emojis/like-gato.png}]]*/ '',
+        8: /*[[@{/imagenes/emojis/dislike-gato.png}]]*/ ''
+    };
+
+    // --- 3. Funciones de Apoyo ---
+
+    function parseEmojis(text) {
+        if (!text) return "";
+        let parsedText = text;
+        Object.keys(emojiMap).forEach(code => {
+            const imgHtml = `<img src="${emojiMap[code]}" class="emoji-in-text" style="width:22px; height:22px; vertical-align:middle;">`;
+            parsedText = parsedText.split(code).join(imgHtml);
+        });
+        return parsedText;
+    }
+
+    function appendMessage(data, isFromSocket = false) {
+        const textoReal = data.contenido || data.content;
+        if(!textoReal) return;
+
+        if (isFromSocket && data.username === username) return;
+
+        let msgUserId = data.userId || data.authorId;
+        const isMe = data.username === username;
+
+        if (isMe && (!msgUserId || msgUserId === 0)) {
+            msgUserId = currentUserId;
+        }
+
+        const finalId = msgUserId || 0;
+        const profileLink = `/usuario/${finalId}`;
+        const row = document.createElement('div');
+        row.className = `chat-msg-row ${isMe ? 'msg-row-me' : 'msg-row-other'}`;
+
+        const avatarUrl = (data.avatar && data.avatar !== "") ? data.avatar : '/imagenes/sin-foto-perfil.png';
+
+        const avatarHtml = isMe ? '' : `
+        <a href="${profileLink}" class="chat-profile-link">
+            <img src="${avatarUrl}" class="chat-avatar">
+        </a>`;
+        row.innerHTML = `
+            ${avatarHtml}
+            <div class="bubble-container">
+                <a href="${profileLink}" class="chat-profile-link">
+                    <span class="msg-user-name">${isMe ? 'Tú' : data.username}</span>
+                </a>
+                <div class="msg-bubble ${isMe ? 'msg-me' : 'msg-other'}">${parseEmojis(textoReal)}</div>
+            </div>
+        `;
+        chatContainer.appendChild(row);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    // --- 4. Lógicas de Guardar y Reaccionar ---
+
+    // Guardar Publicación
+    if (saveIcon) {
+        saveIcon.onclick = async function() {
+            if (this.classList.contains('icon-disabled')) return;
+
+            // 1. Cambio visual instantáneo
+            const isCurrentlySaved = this.classList.contains('bi-bookmark-fill');
+            if (isCurrentlySaved) {
+                this.classList.replace('bi-bookmark-fill', 'bi-bookmark');
+                this.style.color = '#000';
+            } else {
+                this.classList.replace('bi-bookmark', 'bi-bookmark-fill');
+                this.style.color = 'var(--PRIMARY-BLUE)';
+            }
+
+            // 2. Envío a la API en segundo plano
+            try {
+                const response = await fetch(`/imagen/${imageId}/save`, { method: 'POST' });
+                if (!response.ok) throw new Error();
+            } catch (e) {
+
+                if (isCurrentlySaved) {
+                    this.classList.replace('bi-bookmark', 'bi-bookmark-fill');
+                    this.style.color = 'var(--PRIMARY-BLUE)';
+                } else {
+                    this.classList.replace('bi-bookmark-fill', 'bi-bookmark');
+                    this.style.color = '#000';
+                }
+                alert("Error al guardar la imagen");
+            }
+        };
+    }
+
+    // Menú de reacciones (Barra principal)
+    const reactionMenu = document.createElement('div');
+    reactionMenu.className = 'reaction-popup shadow';
+    reactionMenu.innerHTML = document.querySelector('.emoji-grid').innerHTML;
+    document.body.appendChild(reactionMenu);
+
+    if (mainReactBtn) {
+        mainReactBtn.onclick = (e) => {
+            e.stopPropagation();
+            reactionMenu.style.display = 'block';
+            reactionMenu.style.left = e.pageX + 'px';
+            reactionMenu.style.top = (e.pageY - 65) + 'px';
+        };
+    }
+
+    // Al elegir reacción del menú flotante
+    reactionMenu.querySelectorAll('.emoji-item').forEach(img => {
+        img.onclick = async () => {
+            if (mainReactBtn.classList.contains('icon-disabled')) return;
+
+            const emojiCode = img.getAttribute('data-code');
+            const numericId = emojiToId[emojiCode];
+
+            const prevReaction = userCurrentReaction;
+            const newReaction = numericId;
+
+            // Determinamos la acción antes de ir a la API
+            let simulatedAction = "";
+            if (prevReaction === 0) simulatedAction = "added";
+            else if (prevReaction === newReaction) simulatedAction = "removed";
+            else simulatedAction = "switched";
+
+            // Actualizamos contadores inmediatamente
+            if (simulatedAction === "added") {
+                updateCounter(newReaction, 1);
+            } else if (simulatedAction === "removed") {
+                updateCounter(newReaction, -1);
+            } else if (simulatedAction === "switched") {
+                updateCounter(prevReaction, -1);
+                updateCounter(newReaction, 1);
+            }
+
+            // Actualiza el icono principal inmediatamente
+            if (simulatedAction === "removed") {
+                mainReactBtn.innerHTML = '';
+                mainReactBtn.className = "bi bi-emoji-smile cursor-pointer";
+                userCurrentReaction = 0;
+            } else {
+                mainReactBtn.innerHTML = `<img src="${idToPath[newReaction]}" style="width:30px; height:30px; vertical-align:top;">`;
+                mainReactBtn.classList.remove('bi', 'bi-emoji-smile');
+                userCurrentReaction = newReaction;
+            }
+
+            reactionMenu.style.display = 'none';
+            try {
+                const response = await fetch(`/imagen/${imageId}/react`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ reactionType: numericId })
+                });
+                if (!response.ok) throw new Error();
+            } catch (e) {
+                console.error("Error al sincronizar reacción con el servidor");
+                location.reload(); // Recargar es la forma más fácil de recuperar el estado real en caso de error crítico
+            }
+        };
+    });
+    function updateCounter(id, amount) {
+        if (!id || id === 0) return;
+        const statContainer = document.getElementById(`stat-${id}`);
+        if (statContainer) {
+            const span = statContainer.querySelector('span');
+            let count = parseInt(span.innerText) + amount;
+            if (count < 0) count = 0;
+            span.innerText = count;
+
+            // Mostrar u ocultar si llega a cero
+            statContainer.style.display = (count > 0) ? 'flex' : 'none';
+
+        }
+    }
+
+    // --- 5. LÓGICA DEL CHAT ---
+
+    socket.emit('joinImageRoom', imageId);
+    socket.on('mensajeRecibido', (data) => appendMessage(data, true));
+
+    // Cargar historial
+    const mensajesIniciales = /*[[${comentarios}]]*/ [];
+    if (mensajesIniciales) {
+        mensajesIniciales.forEach(msg => appendMessage(msg));
+    }
+
+    // Enviar mensaje
+    btnSend.onclick = async () => {
+        if (btnSend.disabled) return;
+
+        const text = chatInput.value.trim();
+        if (!text) return;
+
+        const payload = {
+            idProducto: imageId,
+            username: username,
+            avatar: userAvatar,
+            contenido: text,
+            userId: currentUserId
+        };
+
+        socket.emit('nuevoMensaje', payload);
+        appendMessage(payload);
+        chatInput.value = '';
+
+        try {
+            await fetch(`/imagen/${imageId}/comentario`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: text })
+            });
+        } catch (e) { console.error("Error guardando el mensaje:", e); }
+    };
+
+    // --- 6. Gestión de menus + emojis input ---
+
+    // Abrir menú de emojis del input
+    btnEmojiInput.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const display = window.getComputedStyle(emojiPicker).display;
+        emojiPicker.style.display = (display === 'none') ? 'block' : 'none';
+    });
+
+    // Insertar emoji en input (Sin cerrar)
+    document.querySelectorAll('#emoji-picker .emoji-item').forEach(img => {
+        img.onclick = (e) => {
+            e.stopPropagation();
+            chatInput.value += `${img.getAttribute('data-code')} `;
+            chatInput.focus();
+        };
+    });
+
+    // Cierre global de menús al hacer click fuera
+    document.addEventListener('click', () => {
+        emojiPicker.style.display = 'none';
+        reactionMenu.style.display = 'none';
+    });
+
+    // Enviar con Enter
+    chatInput.onkeypress = (e) => { if (e.key === 'Enter') btnSend.click(); };
+
+    // --- 7. Carga de estado inicial de reacción ---
+    const initialReaction = /*[[${currentReaction}]]*/ 0;
+    if (initialReaction > 0) {
+        mainReactBtn.innerHTML = `<img src="${idToPath[initialReaction]}" style="width:30px;">`;
+        mainReactBtn.className = "cursor-pointer";
+    }
+
+    /*]]>*/
+</script>
+</body>
+</html>

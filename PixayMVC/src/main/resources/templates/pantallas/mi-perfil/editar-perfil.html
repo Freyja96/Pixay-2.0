@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Masonry y imagesLoaded -->
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+    <link rel="stylesheet" th:href="@{/css/inicio.css}">
+    <link rel="stylesheet" th:href="@{/css/editar-perfil.css}">
+</head>
+<body>
+<div th:insert="~{fragments/cabecera}"></div>
+<div class="form-container pt-5 mt-5 pb-5 mb-4">
+
+    <!-- Para mostrar errores y alertas en pantalla -->
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <h2>Editar Perfil</h2>
+
+    <form th:action="@{/mi-perfil/editar-perfil}" th:object="${usuario}" method="POST" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="profileImage">Foto de perfil</label>
+            <input type="file" id="profileImage" name="profileImage" accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp" />
+            <div class="help-text">Formatos: PNG, JPG, JPEG, WEBP. Tamaño máximo: 50MB.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" name="email" th:value="${usuario.email}" />
+        </div>
+
+        <div class="form-group">
+            <label for="description">Biografía</label>
+            <textarea id="description" name="description" th:text="${usuario.description}" placeholder="Cuéntanos algo sobre ti..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Nueva Contraseña</label>
+            <input type="password" id="password" name="password" placeholder="••••••••" />
+            <div class="help-text">Déjalo en blanco si no deseas cambiar tu contraseña.</div>
+        </div>
+        <div class="form-group">
+            <label for="password">Repite la nueva contraseña</label>
+            <input type="password" id="password2" name="password2" placeholder="••••••••" />
+            <div class="help-text">Déjalo en blanco si no deseas cambiar tu contraseña.</div>
+        </div>
+
+        <button type="submit" class="btn-submit">Guardar Cambios</button>
+
+        <a th:href="@{/mi-perfil/mis-imagenes}" class="cancel-link">Cancelar</a>
+    </form>
+
+    <div th:if="${session.usuarioIdLogueado != null && usuario.id == session.usuarioIdLogueado}"> </div>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- JS propio -->
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", () => {
+        if (window.bootstrap) {
+            const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
+            dropdownElementList.forEach(el => new bootstrap.Dropdown(el));
+        }
+        const seccion = [[${seccion}]];
+        const query = [[${query}]] || "";
+
+        const categoryId = [[${selectedCategoryId}]] || "";
+        const subcategoryId = [[${selectedSubcategoryId}]];
+    });
+</script>
+</body>
+</html>
